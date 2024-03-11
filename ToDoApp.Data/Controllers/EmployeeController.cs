@@ -1,0 +1,54 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ToDoApp.Common.Models;
+using ToDoApp.Data.Services.Abstract;
+
+namespace ToDoApp.Data.Controllers
+{
+    [ApiController]
+    [Route("api/to-do-app/employees")]
+    public class EmployeeController : Controller
+    {
+        private readonly IEmployeeService _employeeService;
+
+        public EmployeeController(IEmployeeService employeeService)
+        {
+            _employeeService = employeeService;
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IEnumerable<PublicEmployee>> GetAllAsync()
+        {
+            return await _employeeService.GetAllAsync(); 
+        }
+
+        [HttpGet("{fullname}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<PublicEmployee> GetByFullnameAsync(string fullname)
+        {
+            return await _employeeService.GetByFullnameAsync(fullname);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task CreateOneAsync([FromBody] PublicEmployee employee) 
+        {
+            await _employeeService.CreateOneAsync(employee);
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public async Task UpdateByIdAsync([FromBody] PublicEmployee employee)
+        {
+            await _employeeService.UpdateByIdAsync(employee);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task DeleteByIdAsync(int id)
+        {
+            await _employeeService.DeleteByIdAsync(id);
+        }
+    }
+}
