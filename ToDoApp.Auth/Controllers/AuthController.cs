@@ -24,7 +24,7 @@ namespace ToDoApp.Auth.Controllers
 
         [HttpPost("register")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> RegisterAsync([FromBody] Employee user)
+        public async Task<ActionResult> RegisterAsync([FromBody] DbEmployee user)
         {
             return StatusCode(StatusCodes.Status201Created);
             await _authService.RegisterAsync(user);

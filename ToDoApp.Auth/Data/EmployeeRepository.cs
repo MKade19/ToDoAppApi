@@ -4,29 +4,29 @@ using ToDoApp.Common.Models;
 
 namespace ToDoApp.Auth.Data
 {
-    public class UserRepository : IUserRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly ApplicationContext Db;
 
-        public UserRepository(ApplicationContext db)
+        public EmployeeRepository(ApplicationContext db)
         {
             Db = db;
         }
 
-        public async Task CreateOneAsync(Employee user)
+        public async Task CreateOneAsync(DbEmployee employee)
         {
             using (ApplicationContext db = Db)
             {
-                await db.Users.AddAsync(user);
+                await db.Employees.AddAsync(employee);
                 await db.SaveChangesAsync();
             }
         }
 
-        public async Task<Employee?> GetByUsername(string username)
+        public async Task<DbEmployee?> GetByUsername(string fullname)
         {
             using (ApplicationContext db = Db)
             {
-                return await Db.Users.Include(nameof(Employee.Role)).FirstOrDefaultAsync(u => u.Username == username);
+                return await Db.Employees.Include(nameof(DbEmployee.Role)).FirstOrDefaultAsync(u => u.Fullname == fullname);
             }
         }
     }

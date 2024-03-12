@@ -14,7 +14,7 @@ namespace ToDoApp.Common.Models
         
         public string Name { get; set; }
 
-        public List<Employee> Users { get; set; }
+        public List<DbEmployee> Users { get; set; }
 
         public Role(int id, string name)
         {

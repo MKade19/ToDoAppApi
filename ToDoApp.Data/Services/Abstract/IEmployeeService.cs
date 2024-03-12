@@ -2,15 +2,8 @@
 
 namespace ToDoApp.Data.Services.Abstract
 {
-    public interface IEmployeeService
+    public interface IEmployeeService : IDataService<Employee>
     {
-        Task CreateOneAsync(PublicEmployee employee);
-
-        Task DeleteByIdAsync(int id);
-
-        Task<IEnumerable<PublicEmployee>> GetAllAsync();
-        Task<PublicEmployee> GetByFullnameAsync(string fullname);
-
-        Task UpdateByIdAsync(PublicEmployee employee);
+        Task<Employee> GetByFullnameAsync(string fullname);
     }
 }

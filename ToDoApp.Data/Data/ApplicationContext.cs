@@ -9,6 +9,8 @@ namespace ToDoApp.Data.Data
             : base(options)
         { }
 
-        public DbSet<PublicEmployee> Employees { get; set; } = null!;
+        public DbSet<DbEmployee> Employees { get; set; } = null!;
+        public DbSet<Speciality> Specialities { get; set; } = null!;
+        public DbSet<Objective> Objectives { get; set; } = null!;
     }
 }

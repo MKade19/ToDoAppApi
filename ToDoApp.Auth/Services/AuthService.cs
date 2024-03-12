@@ -7,7 +7,7 @@ namespace ToDoApp.Auth.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IEmployeeRepository _userRepository;
         private readonly ITokenService _tokenService;
         private readonly IHashService _hashService;
 
@@ -15,7 +15,7 @@ namespace ToDoApp.Auth.Services
         private const string IncorrectPasswordMessage = "Incorrect password!";
         private const string UserAlreadyExistsMessage = "User with this username already exists!";
 
-        public AuthService(IUserRepository userRepository, ITokenService tokenService, IHashService hashService)
+        public AuthService(IEmployeeRepository userRepository, ITokenService tokenService, IHashService hashService)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
@@ -24,7 +24,7 @@ namespace ToDoApp.Auth.Services
 
         public async Task<AuthData> LoginAsync(LoginUser user)
         {
-            Employee? userFromDb = await _userRepository.GetByUsername(user.Username);
+            DbEmployee? userFromDb = await _userRepository.GetByUsername(user.Username);
 
             if (userFromDb == null)
             {
@@ -41,9 +41,9 @@ namespace ToDoApp.Auth.Services
             return new AuthData(token);
         }
 
-        public async Task RegisterAsync(Employee user)
+        public async Task RegisterAsync(DbEmployee user)
         {
-            Employee? userFromDb = await _userRepository.GetByUsername(user.Username);
+            DbEmployee? userFromDb = await _userRepository.GetByUsername(user.Fullname);
 
             if (userFromDb != null)
             {

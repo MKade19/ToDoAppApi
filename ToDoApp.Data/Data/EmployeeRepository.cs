@@ -16,11 +16,11 @@ namespace ToDoApp.Data.Data
             Db = db;
         }
 
-        public async Task CreateOneAsync(PublicEmployee employee)
+        public async Task CreateOneAsync(Employee employee)
         {
             using (ApplicationContext db = Db)
             {
-                await db.Employees.AddAsync(employee);
+                await db.Employees.AddAsync((DbEmployee)employee);
                 await db.SaveChangesAsync();
             }
         }
@@ -29,7 +29,7 @@ namespace ToDoApp.Data.Data
         {
             using (ApplicationContext db = Db)
             {
-                PublicEmployee? employeeToRemove = await db.Employees.FirstOrDefaultAsync(e => e.Id == id);
+                DbEmployee? employeeToRemove = await db.Employees.FirstOrDefaultAsync(e => e.Id == id);
 
                 if (employeeToRemove != null)
                 {
@@ -40,7 +40,7 @@ namespace ToDoApp.Data.Data
             }
         }
 
-        public async Task<IEnumerable<PublicEmployee>> GetAllAsync()
+        public async Task<IEnumerable<Employee>> GetAllAsync()
         {
             using (ApplicationContext db = Db)
             {
@@ -48,26 +48,26 @@ namespace ToDoApp.Data.Data
             }
         }
 
-        public async Task<PublicEmployee> GetByFullnameAsync(string fullname)
+        public async Task<Employee> GetByFullnameAsync(string fullname)
         {
             using (ApplicationContext db = Db)
             {
-                PublicEmployee? publicEmployee = await db.Employees.FirstOrDefaultAsync(e => e.Fullname == fullname);
+                DbEmployee? dbEmployee = await db.Employees.FirstOrDefaultAsync(e => e.Fullname == fullname);
 
-                if (publicEmployee == null)
+                if (dbEmployee == null)
                 {
                     throw new NotFoundException(EmployeeNotFoundMessage);
                 }
 
-                return publicEmployee;
+                return dbEmployee;
             }
         }
 
-        public async Task UpdateByIdAsync(PublicEmployee employee)
+        public async Task UpdateByIdAsync(Employee employee)
         {
             using (ApplicationContext db = Db)
             {
-                PublicEmployee? employeeFromDb = await db.Employees.FirstOrDefaultAsync(e => e.Id == employee.Id);
+                DbEmployee? employeeFromDb = await db.Employees.FirstOrDefaultAsync(e => e.Id == employee.Id);
 
                 if (employeeFromDb == null)
                 {

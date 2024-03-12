@@ -18,28 +18,28 @@ namespace ToDoApp.Data.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<IEnumerable<PublicEmployee>> GetAllAsync()
+        public async Task<IEnumerable<Employee>> GetAllAsync()
         {
             return await _employeeService.GetAllAsync(); 
         }
 
         [HttpGet("{fullname}")]
         [Authorize(Roles = "Admin")]
-        public async Task<PublicEmployee> GetByFullnameAsync(string fullname)
+        public async Task<Employee> GetByFullnameAsync(string fullname)
         {
             return await _employeeService.GetByFullnameAsync(fullname);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task CreateOneAsync([FromBody] PublicEmployee employee) 
+        public async Task CreateOneAsync([FromBody] DbEmployee employee) 
         {
             await _employeeService.CreateOneAsync(employee);
         }
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task UpdateByIdAsync([FromBody] PublicEmployee employee)
+        public async Task UpdateByIdAsync([FromBody] DbEmployee employee)
         {
             await _employeeService.UpdateByIdAsync(employee);
         }

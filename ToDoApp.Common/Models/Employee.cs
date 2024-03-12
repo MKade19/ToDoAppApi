@@ -4,54 +4,38 @@ using System.Text.Json.Serialization;
 
 namespace ToDoApp.Common.Models
 {
-    [Table("Employees")]
     public class Employee
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [JsonIgnore]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("username")]
-        [Column("Fullname")]
+        [JsonPropertyName("fullname")]
         [StringLength(50)]
-        public string Username { get; set; } = string.Empty;
-
-        [JsonPropertyName("password")]
-        [StringLength(255)]
-        public string Password { get; set; } = string.Empty;
-
-        public byte[]? Salt { get; set; }
+        public string Fullname { get; set; } = string.Empty;
 
         [JsonPropertyName("employmentDate")]
         public DateTime EmploymentDate { get; set; }
 
         [JsonPropertyName("age")]
         public int Age { get; set; }
+
+        [JsonPropertyName("roleId")]
         public int RoleId { get; set; } = 1;
 
         [JsonPropertyName("specialityId")]
         public int SpecialityId { get; set; }
 
-        public Role? Role { get; set; }
-
         [JsonConstructor]
-        public Employee(string username, string password, int age, int specialityId, DateTime employmentDate)
-        {
-            Username = username;
-            Password = password;
-            EmploymentDate = employmentDate;
-            Age = age;
-            SpecialityId = specialityId;
-        }
-
-        public Employee(int id, string username, string password, byte[]? salt, int roleId)
+        public Employee(int id, string fullname, DateTime employmentDate, int age, int roleId, int specialityId)
         {
             Id = id;
-            Username = username;
-            Password = password;
-            Salt = salt;
+            Fullname = fullname;
+            EmploymentDate = employmentDate;
+            Age = age;
             RoleId = roleId;
+            SpecialityId = specialityId;
         }
 
         public Employee() { }

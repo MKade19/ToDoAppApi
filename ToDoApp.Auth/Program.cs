@@ -6,7 +6,6 @@ using ToDoApp.Auth.Data.Abstract;
 using ToDoApp.Auth.Middlewares;
 using ToDoApp.Auth.Services;
 using ToDoApp.Auth.Services.Abstract;
-using ToDoApp.Common.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +20,7 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IHashService, HashService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 
 builder.Services.AddControllers();
 

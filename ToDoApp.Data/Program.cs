@@ -17,8 +17,13 @@ builder.Services.AddDbContextPool<ApplicationContext>(options =>
 });
 
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
+builder.Services.AddTransient<IHashService, HashService>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+builder.Services.AddTransient<ISpecialityService, SpecialityService>();
+builder.Services.AddTransient<IObjectiveService, ObjectiveService>();
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddTransient<ISpecialityRepository, SpecialityRepository>();
+builder.Services.AddTransient<IObjectiveRepository, ObjectiveRepository>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

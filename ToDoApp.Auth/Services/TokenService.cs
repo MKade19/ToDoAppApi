@@ -11,10 +11,10 @@ namespace ToDoApp.Auth.Services
     {
         public string GetToken(object payload)
         {
-            Employee user = (Employee)payload;
+            DbEmployee user = (DbEmployee)payload;
 
             var claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Name, user.Fullname),
                 new Claim(ClaimTypes.Role, user.Role.Name)
             };
 
