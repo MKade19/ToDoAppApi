@@ -7,7 +7,7 @@ namespace ToDoApp.Data.Controllers
 {
     [ApiController]
     [Route("api/to-do-app/objectives")]
-    public class ObjectiveController
+    public class ObjectiveController : ControllerBase
     {
         private readonly IObjectiveService _objectiveService;
 
@@ -32,9 +32,10 @@ namespace ToDoApp.Data.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task CreateOneAsync([FromBody] Objective objective)
+        public async Task<ActionResult> CreateOneAsync([FromBody] Objective objective)
         {
             await _objectiveService.CreateOneAsync(objective);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]

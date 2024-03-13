@@ -7,7 +7,8 @@ namespace ToDoApp.Data.Data
 {
     public class SpecialityRepository : ISpecialityRepository
     {
-        private const string SpecialityNotFoundMessage = "There is no such an speciality!";
+        private const string SpecialityNotFoundMessage = "There is no such a speciality!";
+        private const string SpecialityAlreadyExistsMessage = "There is a speciality with this title!";
 
         private readonly ApplicationContext Db;
 
@@ -20,6 +21,13 @@ namespace ToDoApp.Data.Data
         {
             using (ApplicationContext db = Db)
             {
+                Speciality? specialityFromDb = await db.Specialities.FirstOrDefaultAsync(s => s.Title == speciality.Title);
+
+                if (specialityFromDb != null)
+                {
+                    throw new BadRequestException(SpecialityAlreadyExistsMessage);
+                }
+
                 await db.Specialities.AddAsync(speciality);
                 await db.SaveChangesAsync();
             }

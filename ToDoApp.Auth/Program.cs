@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using ToDoApp.Auth.Data;
 using ToDoApp.Auth.Data.Abstract;
 using ToDoApp.Auth.Middlewares;

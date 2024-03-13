@@ -6,8 +6,8 @@ using ToDoApp.Data.Services.Abstract;
 namespace ToDoApp.Data.Controllers
 {
     [ApiController]
-    [Route("api/to-do-app/speciality")]
-    public class SpecialityController 
+    [Route("api/to-do-app/specialities")]
+    public class SpecialityController : ControllerBase
     {
         private readonly ISpecialityService _specialityService;
 
@@ -32,9 +32,10 @@ namespace ToDoApp.Data.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task CreateOneAsync([FromBody] Speciality speciality)
+        public async Task<ActionResult> CreateOneAsync([FromBody] Speciality speciality)
         {
             await _specialityService.CreateOneAsync(speciality);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]

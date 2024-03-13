@@ -8,6 +8,7 @@ namespace ToDoApp.Data.Data
     public class ObjectiveRepository : IObjectiveRepository
     {
         private const string ObjectiveNotFoundMessage = "There is no such an objective!";
+        private const string ObjectiveAlredyExistsMessage = "There is an objective with this title!";
 
         private readonly ApplicationContext Db;
 
@@ -20,6 +21,13 @@ namespace ToDoApp.Data.Data
         {
             using (ApplicationContext db = Db)
             {
+                Objective? dbObjective = await db.Objectives.FirstOrDefaultAsync(o => o.Title == objective.Title);
+
+                if (dbObjective != null)
+                {
+                    throw new BadRequestException(ObjectiveAlredyExistsMessage);
+                }
+
                 DateTime currentDate = DateTime.Now;
                 objective.CreatedDate = currentDate;
                 objective.UpdatedDate = currentDate;

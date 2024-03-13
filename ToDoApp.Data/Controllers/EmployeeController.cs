@@ -32,14 +32,15 @@ namespace ToDoApp.Data.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task CreateOneAsync([FromBody] DbEmployee employee) 
+        public async Task<ActionResult> CreateOneAsync([FromBody] DbEmployee employee) 
         {
             await _employeeService.CreateOneAsync(employee);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task UpdateByIdAsync([FromBody] DbEmployee employee)
+        public async Task UpdateByIdAsync([FromBody] Employee employee)
         {
             await _employeeService.UpdateByIdAsync(employee);
         }

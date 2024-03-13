@@ -38,6 +38,16 @@ namespace ToDoApp.Common.Models
             SpecialityId = specialityId;
         }
 
+        public Employee(Employee employee) 
+        {
+            Id = employee.Id;
+            Fullname = employee.Fullname;
+            EmploymentDate = employee.EmploymentDate;
+            Age = employee.Age;
+            RoleId = employee.RoleId;
+            SpecialityId = employee.SpecialityId;
+        }
+
         public Employee() { }
     }
 }

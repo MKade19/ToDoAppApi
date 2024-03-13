@@ -8,6 +8,7 @@ namespace ToDoApp.Data.Data
     public class EmployeeRepository : IEmployeeRepository
     {
         private const string EmployeeNotFoundMessage = "There is no such an employee!";
+        private const string EmployeeAlreadyExistsMessage = "There is an employee with this title!";
 
         private readonly ApplicationContext Db;
 
@@ -20,6 +21,13 @@ namespace ToDoApp.Data.Data
         {
             using (ApplicationContext db = Db)
             {
+                Employee? dbEmployee = await db.Employees.Select(e => new Employee(e)).FirstOrDefaultAsync(e => e.Fullname == employee.Fullname);
+
+                if (dbEmployee != null)
+                {
+                    throw new BadRequestException(EmployeeAlreadyExistsMessage);
+                }
+
                 await db.Employees.AddAsync((DbEmployee)employee);
                 await db.SaveChangesAsync();
             }
@@ -44,7 +52,7 @@ namespace ToDoApp.Data.Data
         {
             using (ApplicationContext db = Db)
             {
-                return await db.Employees.ToListAsync();
+                return await db.Employees.Select(e => new Employee(e)).ToListAsync();
             }
         }
 
@@ -52,7 +60,7 @@ namespace ToDoApp.Data.Data
         {
             using (ApplicationContext db = Db)
             {
-                DbEmployee? dbEmployee = await db.Employees.FirstOrDefaultAsync(e => e.Fullname == fullname);
+                Employee? dbEmployee = await db.Employees.Select(e => new Employee(e)).FirstOrDefaultAsync(e => e.Fullname == fullname);
 
                 if (dbEmployee == null)
                 {
