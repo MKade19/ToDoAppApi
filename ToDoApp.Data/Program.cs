@@ -62,7 +62,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
+
+app.UseCors(builder => builder.AllowAnyOrigin());
 
 app.UseHttpsRedirection();
 
@@ -70,6 +74,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
+
 
 app.MapControllers();
 

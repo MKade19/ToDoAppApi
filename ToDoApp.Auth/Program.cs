@@ -22,7 +22,15 @@ builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 
 builder.Services.AddControllers();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
+
+app.UseCors(builder => builder
+    .WithOrigins("http://localhost:3000")
+    .WithMethods("POST")
+    .AllowAnyHeader()
+    .AllowCredentials());
 
 app.UseHttpsRedirection();
 

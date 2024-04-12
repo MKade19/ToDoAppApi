@@ -37,8 +37,9 @@ namespace ToDoApp.Auth.Services
             }
 
             string token = _tokenService.GetToken(userFromDb);
+            PublicUser publicUser = new PublicUser(userFromDb.Id, userFromDb.Fullname);
 
-            return new AuthData(token);
+            return new AuthData(token, publicUser);
         }
 
         public async Task RegisterAsync(DbEmployee user)
