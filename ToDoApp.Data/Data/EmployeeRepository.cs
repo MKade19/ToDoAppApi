@@ -21,14 +21,14 @@ namespace ToDoApp.Data.Data
         {
             using (ApplicationContext db = Db)
             {
-                Employee? dbEmployee = await db.Employees.Select(e => new Employee(e)).FirstOrDefaultAsync(e => e.Fullname == employee.Fullname);
+                Employee? dbEmployee = await db.Employees.FirstOrDefaultAsync(e => e.Fullname == employee.Fullname);
 
                 if (dbEmployee != null)
                 {
                     throw new BadRequestException(EmployeeAlreadyExistsMessage);
                 }
 
-                await db.Employees.AddAsync((DbEmployee)employee);
+                await db.Employees.AddAsync(employee);
                 await db.SaveChangesAsync();
             }
         }
@@ -37,7 +37,7 @@ namespace ToDoApp.Data.Data
         {
             using (ApplicationContext db = Db)
             {
-                DbEmployee? employeeToRemove = await db.Employees.FirstOrDefaultAsync(e => e.Id == id);
+                Employee? employeeToRemove = await db.Employees.FirstOrDefaultAsync(e => e.Id == id);
 
                 if (employeeToRemove != null)
                 {
@@ -71,11 +71,16 @@ namespace ToDoApp.Data.Data
             }
         }
 
+        public Task<Employee> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task UpdateByIdAsync(Employee employee)
         {
             using (ApplicationContext db = Db)
             {
-                DbEmployee? employeeFromDb = await db.Employees.FirstOrDefaultAsync(e => e.Id == employee.Id);
+                Employee? employeeFromDb = await db.Employees.FirstOrDefaultAsync(e => e.Id == employee.Id);
 
                 if (employeeFromDb == null)
                 {
@@ -90,6 +95,11 @@ namespace ToDoApp.Data.Data
 
                 await db.SaveChangesAsync();
             }
+        }
+
+        Task<Employee> IRepository<Employee>.GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ToDoApp.Auth.Data
             : base(options)
         { }
 
-        public DbSet<DbEmployee> Employees { get; set; } = null!;
+        public DbSet<Employee> Employees { get; set; } = null!;
         public DbSet<Role> Roles { get; set; } = null!;
     }
 }

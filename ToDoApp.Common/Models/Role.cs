@@ -10,11 +10,8 @@ namespace ToDoApp.Common.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [JsonPropertyName("id")]
         public int Id { get; set; }
-
         
         public string Name { get; set; }
-
-        public List<DbEmployee> Users { get; set; }
 
         public Role(int id, string name)
         {

@@ -28,6 +28,11 @@ namespace ToDoApp.Data.Services
             return await _objectiveRepository.GetAllAsync();
         }
 
+        public Task<Objective> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Objective> GetByTitleAsync(string title)
         {
             return await _objectiveRepository.GetByTitleAsync(title);

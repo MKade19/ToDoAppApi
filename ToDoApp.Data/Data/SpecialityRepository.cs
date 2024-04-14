@@ -56,6 +56,21 @@ namespace ToDoApp.Data.Data
             }
         }
 
+        public async Task<Speciality> GetByIdAsync(int id)
+        {
+            using (ApplicationContext db = Db)
+            {
+                Speciality? speciality = await db.Specialities.FirstOrDefaultAsync(s => s.Id == id);
+
+                if (speciality == null)
+                {
+                    throw new NotFoundException(SpecialityNotFoundMessage);
+                }
+
+                return speciality;
+            }
+        }
+
         public async Task<Speciality> GetByTitleAsync(string title)
         {
             using (ApplicationContext db = Db)

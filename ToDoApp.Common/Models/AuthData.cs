@@ -8,10 +8,10 @@ namespace ToDoApp.Common.Models
         public string Token { get; set; }
 
         [JsonPropertyName("user")]
-        public PublicUser User { get; set; }
+        public PublicEmployee User { get; set; }
 
         [JsonConstructor]
-        public AuthData(string token, PublicUser user)
+        public AuthData(string token, PublicEmployee user)
         {
             Token = token;
             User = user;

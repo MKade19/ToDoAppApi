@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace ToDoApp.Common.Models
 {
-    public class PublicUser
+    public class PublicEmployee
     {
         [JsonPropertyName("id")]
         [Required]
@@ -14,11 +14,16 @@ namespace ToDoApp.Common.Models
         [StringLength(50)]
         public string Username { get; set; }
 
+        [JsonPropertyName("role")]
+        [Required]
+        public Role Role{ get; set; }
+
         [JsonConstructor]
-        public PublicUser(int id, string username)
+        public PublicEmployee(int id, string username, Role role)
         {
             Id = id;
             Username = username;
+            Role = role;
         }
     }
 }

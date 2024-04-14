@@ -7,7 +7,7 @@ namespace ToDoApp.Auth.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IEmployeeRepository _userRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly ITokenService _tokenService;
         private readonly IHashService _hashService;
 
@@ -17,14 +17,14 @@ namespace ToDoApp.Auth.Services
 
         public AuthService(IEmployeeRepository userRepository, ITokenService tokenService, IHashService hashService)
         {
-            _userRepository = userRepository;
+            _employeeRepository = userRepository;
             _tokenService = tokenService;
             _hashService = hashService;
         }
 
-        public async Task<AuthData> LoginAsync(LoginUser user)
+        public async Task<AuthData> LoginAsync(LoginData user)
         {
-            DbEmployee? userFromDb = await _userRepository.GetByUsername(user.Username);
+            Employee? userFromDb = await _employeeRepository.GetByUsername(user.Username);
 
             if (userFromDb == null)
             {
@@ -37,24 +37,24 @@ namespace ToDoApp.Auth.Services
             }
 
             string token = _tokenService.GetToken(userFromDb);
-            PublicUser publicUser = new PublicUser(userFromDb.Id, userFromDb.Fullname);
+            PublicEmployee publicUser = new PublicEmployee(userFromDb.Id, userFromDb.Username, userFromDb.Role);
 
             return new AuthData(token, publicUser);
         }
 
-        public async Task RegisterAsync(DbEmployee user)
+        public async Task RegisterAsync(Employee employee)
         {
-            DbEmployee? userFromDb = await _userRepository.GetByUsername(user.Fullname);
+            Employee? employeeFromDb = await _employeeRepository.GetByUsername(employee.Fullname);
 
-            if (userFromDb != null)
+            if (employeeFromDb != null)
             {
                 throw new BadRequestException(UserAlreadyExistsMessage);
             }
 
-            user.Password = _hashService.GetHash(user.Password, out byte[] salt);
-            user.Salt = salt;
+            employee.Password = _hashService.GetHash(employee.Password, out byte[] salt);
+            employee.Salt = salt;
 
-            await _userRepository.CreateOneAsync(user);
+            await _employeeRepository.CreateOneAsync(employee);
         }
     }
 }

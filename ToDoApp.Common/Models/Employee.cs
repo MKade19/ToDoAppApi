@@ -4,12 +4,17 @@ using System.Text.Json.Serialization;
 
 namespace ToDoApp.Common.Models
 {
+    [Table("Employees")]
     public class Employee
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [JsonPropertyName("id")]
         public int Id { get; set; }
+
+        [JsonPropertyName("username")]
+        [StringLength(50)]
+        public string Username { get; set; } = string.Empty;
 
         [JsonPropertyName("fullname")]
         [StringLength(50)]
@@ -24,13 +29,26 @@ namespace ToDoApp.Common.Models
         [JsonPropertyName("roleId")]
         public int RoleId { get; set; } = 1;
 
+        [ForeignKey(nameof(RoleId))]
+        public Role? Role { get; set; }
+
         [JsonPropertyName("specialityId")]
         public int SpecialityId { get; set; }
 
+        [ForeignKey(nameof(SpecialityId))]
+        public Speciality? Speciality { get; set; }
+
+        [JsonPropertyName("password")]
+        [StringLength(255)]
+        public string Password { get; set; } = string.Empty;
+
+        public byte[]? Salt { get; set; }
+
         [JsonConstructor]
-        public Employee(int id, string fullname, DateTime employmentDate, int age, int roleId, int specialityId)
+        public Employee(int id, string username, string fullname, DateTime employmentDate, int age, int roleId, int specialityId)
         {
             Id = id;
+            Username = username;
             Fullname = fullname;
             EmploymentDate = employmentDate;
             Age = age;
@@ -38,9 +56,10 @@ namespace ToDoApp.Common.Models
             SpecialityId = specialityId;
         }
 
-        public Employee(Employee employee) 
+        public Employee(Employee employee)
         {
             Id = employee.Id;
+            Username = employee.Username;
             Fullname = employee.Fullname;
             EmploymentDate = employee.EmploymentDate;
             Age = employee.Age;

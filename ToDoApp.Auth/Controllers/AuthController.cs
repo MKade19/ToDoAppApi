@@ -17,14 +17,14 @@ namespace ToDoApp.Auth.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<AuthData> LoginAsync([FromBody] LoginUser user)
+        public async Task<AuthData> LoginAsync([FromBody] LoginData user)
         {
             return await _authService.LoginAsync(user); 
         }
 
         [HttpPost("register")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> RegisterAsync([FromBody] DbEmployee user)
+        public async Task<ActionResult> RegisterAsync([FromBody] Employee user)
         {
             await _authService.RegisterAsync(user);
             return StatusCode(StatusCodes.Status201Created);

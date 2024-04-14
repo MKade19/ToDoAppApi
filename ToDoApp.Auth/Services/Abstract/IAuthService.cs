@@ -4,7 +4,7 @@ namespace ToDoApp.Auth.Services.Abstract
 {
     public interface IAuthService
     {
-        Task<AuthData> LoginAsync(LoginUser user);
-        Task RegisterAsync(DbEmployee user);
+        Task<AuthData> LoginAsync(LoginData user);
+        Task RegisterAsync(Employee user);
     }
 }

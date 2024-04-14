@@ -17,36 +17,36 @@ namespace ToDoApp.Data.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IEnumerable<Employee>> GetAllAsync()
         {
             return await _employeeService.GetAllAsync(); 
         }
 
         [HttpGet("{fullname}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<Employee> GetByFullnameAsync(string fullname)
         {
             return await _employeeService.GetByFullnameAsync(fullname);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> CreateOneAsync([FromBody] DbEmployee employee) 
+        //[Authorize(Roles = "Admin")]
+        public async Task<ActionResult> CreateOneAsync([FromBody] Employee employee) 
         {
             await _employeeService.CreateOneAsync(employee);
             return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task UpdateByIdAsync([FromBody] Employee employee)
         {
             await _employeeService.UpdateByIdAsync(employee);
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task DeleteByIdAsync(int id)
         {
             await _employeeService.DeleteByIdAsync(id);

@@ -7,10 +7,19 @@ using ToDoApp.Data.Middlewares;
 using ToDoApp.Data.Services;
 using ToDoApp.Data.Services.Abstract;
 using ToDoApp.Common.Security;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
 builder.Services.AddDbContextPool<ApplicationContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerTodoAppDb"));
@@ -66,7 +75,11 @@ builder.Services.AddCors();
 
 var app = builder.Build();
 
-app.UseCors(builder => builder.AllowAnyOrigin());
+app.UseCors(builder => builder
+    .WithOrigins("http://localhost:3000")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
 
 app.UseHttpsRedirection();
 
@@ -74,8 +87,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-
-
 
 app.MapControllers();
 

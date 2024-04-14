@@ -13,7 +13,7 @@ namespace ToDoApp.Auth.Data
             Db = db;
         }
 
-        public async Task CreateOneAsync(DbEmployee employee)
+        public async Task CreateOneAsync(Employee employee)
         {
             using (ApplicationContext db = Db)
             {
@@ -22,11 +22,11 @@ namespace ToDoApp.Auth.Data
             }
         }
 
-        public async Task<DbEmployee?> GetByUsername(string fullname)
+        public async Task<Employee?> GetByUsername(string fullname)
         {
             using (ApplicationContext db = Db)
             {
-                return await Db.Employees.Include(nameof(DbEmployee.Role)).FirstOrDefaultAsync(u => u.Fullname == fullname);
+                return await Db.Employees.Include(nameof(Employee.Role)).FirstOrDefaultAsync(u => u.Fullname == fullname);
             }
         }
     }

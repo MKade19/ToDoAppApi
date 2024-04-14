@@ -75,6 +75,11 @@ namespace ToDoApp.Data.Data
             }
         }
 
+        Task<Objective> IRepository<Objective>.GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task UpdateByIdAsync(Objective objective)
         {
             using (ApplicationContext db = Db)

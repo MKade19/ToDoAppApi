@@ -11,7 +11,7 @@ namespace ToDoApp.Auth.Services
     {
         public string GetToken(object payload)
         {
-            DbEmployee user = (DbEmployee)payload;
+            Employee user = (Employee)payload;
 
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.Name, user.Fullname),

@@ -17,12 +17,10 @@ namespace ToDoApp.Data.Services
 
         public async Task CreateOneAsync(Employee employee)
         {
-            DbEmployee dbEmployee = (DbEmployee)employee;
+            employee.Password = _hashService.GetHash(employee.Password, out byte[] salt);
+            employee.Salt = salt;
 
-            dbEmployee.Password = _hashService.GetHash(dbEmployee.Password, out byte[] salt);
-            dbEmployee.Salt = salt;
-
-            await _employeeRepository.CreateOneAsync(dbEmployee);
+            await _employeeRepository.CreateOneAsync(employee);
         }
 
         public async Task DeleteByIdAsync(int id)
@@ -38,6 +36,11 @@ namespace ToDoApp.Data.Services
         public async Task<Employee> GetByFullnameAsync(string username)
         {
             return await _employeeRepository.GetByFullnameAsync(username);
+        }
+
+        public Task<Employee> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task UpdateByIdAsync(Employee employee)

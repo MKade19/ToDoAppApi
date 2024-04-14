@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace ToDoApp.Common.Models
 {
-    public class LoginUser
+    public class LoginData
     {
         [JsonPropertyName("username")]
         [Required]
@@ -16,7 +16,7 @@ namespace ToDoApp.Common.Models
         public string Password { get; set; } = string.Empty;
 
         [JsonConstructor]
-        public LoginUser(string username, string password)
+        public LoginData(string username, string password)
         {
             Username = username;
             Password = password;

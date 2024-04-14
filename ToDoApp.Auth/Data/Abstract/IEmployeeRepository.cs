@@ -4,7 +4,7 @@ namespace ToDoApp.Auth.Data.Abstract
 {
     public interface IEmployeeRepository
     {
-        Task CreateOneAsync(DbEmployee user);
-        Task<DbEmployee?> GetByUsername(string username);
+        Task CreateOneAsync(Employee employee);
+        Task<Employee?> GetByUsername(string username);
     }
 }

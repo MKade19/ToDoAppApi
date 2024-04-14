@@ -9,5 +9,7 @@
         Task<IEnumerable<T>> GetAllAsync();
 
         Task UpdateByIdAsync(T entity);
+
+        Task<T> GetByIdAsync(int id);
     }
 }

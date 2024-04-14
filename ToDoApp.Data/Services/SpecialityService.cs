@@ -28,6 +28,11 @@ namespace ToDoApp.Data.Services
             return await _specialityRepository.GetAllAsync();
         }
 
+        public async Task<Speciality> GetByIdAsync(int id)
+        {
+            return await _specialityRepository.GetByIdAsync(id);
+        }
+
         public async Task<Speciality> GetByTitleAsync(string title)
         {
             return await _specialityRepository.GetByTitleAsync(title);
