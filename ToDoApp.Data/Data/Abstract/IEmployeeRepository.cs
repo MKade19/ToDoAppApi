@@ -4,6 +4,8 @@ namespace ToDoApp.Data.Data.Abstract
 {
     public interface IEmployeeRepository : IRepository<Employee>
     {
-        Task<Employee> GetByFullnameAsync(string name);
+        Task<PublicEmployee> GetByFullnameAsync(string name);
+        Task<IEnumerable<PublicEmployee>> GetAllPublicAsync();
+        Task<PublicEmployee> GetByIdPublicAsync(int id);
     }
 }

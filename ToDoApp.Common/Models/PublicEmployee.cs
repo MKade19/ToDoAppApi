@@ -1,29 +1,34 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace ToDoApp.Common.Models
 {
     public class PublicEmployee
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [JsonPropertyName("id")]
-        [Required]
         public int Id { get; set; }
 
         [JsonPropertyName("username")]
-        [Required]
         [StringLength(50)]
-        public string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
+
+        [JsonPropertyName("fullname")]
+        [StringLength(50)]
+        public string Fullname { get; set; } = string.Empty;
+
+        [JsonPropertyName("employmentDate")]
+        public DateTime EmploymentDate { get; set; }
+
+        [JsonPropertyName("age")]
+        public int Age { get; set; }
 
         [JsonPropertyName("role")]
-        [Required]
-        public Role Role{ get; set; }
+        public Role? Role { get; set; }
 
-        [JsonConstructor]
-        public PublicEmployee(int id, string username, Role role)
-        {
-            Id = id;
-            Username = username;
-            Role = role;
-        }
+        [JsonPropertyName("speciality")]
+        public Speciality? Speciality { get; set; }
     }
 }

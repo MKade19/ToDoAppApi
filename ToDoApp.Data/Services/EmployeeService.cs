@@ -28,12 +28,17 @@ namespace ToDoApp.Data.Services
             await _employeeRepository.DeleteByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Employee>> GetAllAsync()
+        public Task<IEnumerable<Employee>> GetAllAsync()
         {
-            return await _employeeRepository.GetAllAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task<Employee> GetByFullnameAsync(string username)
+        public async Task<IEnumerable<PublicEmployee>> GetAllPublicAsync()
+        {
+            return await _employeeRepository.GetAllPublicAsync();
+        }
+
+        public async Task<PublicEmployee> GetByFullnameAsync(string username)
         {
             return await _employeeRepository.GetByFullnameAsync(username);
         }
@@ -41,6 +46,11 @@ namespace ToDoApp.Data.Services
         public Task<Employee> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<PublicEmployee> GetByIdPublicAsync(int id)
+        {
+            return await _employeeRepository.GetByIdPublicAsync(id);
         }
 
         public async Task UpdateByIdAsync(Employee employee)

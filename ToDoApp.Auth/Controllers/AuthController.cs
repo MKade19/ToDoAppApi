@@ -29,5 +29,13 @@ namespace ToDoApp.Auth.Controllers
             await _authService.RegisterAsync(user);
             return StatusCode(StatusCodes.Status201Created);
         }
+
+        [HttpPost("change-password")]
+        //[Authorize]
+        public async Task<ActionResult> ChangePasswordAsync([FromBody] ChangePasswordData changePasswordData)
+        {
+            await _authService.ChangePasswordAsync(changePasswordData);
+            return StatusCode(StatusCodes.Status200OK);
+        }
     }
 }

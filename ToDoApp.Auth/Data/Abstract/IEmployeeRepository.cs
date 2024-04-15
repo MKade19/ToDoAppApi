@@ -6,5 +6,6 @@ namespace ToDoApp.Auth.Data.Abstract
     {
         Task CreateOneAsync(Employee employee);
         Task<Employee?> GetByUsername(string username);
+        Task ChangePasswordAsync(ChangePasswordData changePasswordData);
     }
 }

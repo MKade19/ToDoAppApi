@@ -6,5 +6,6 @@ namespace ToDoApp.Auth.Services.Abstract
     {
         Task<AuthData> LoginAsync(LoginData user);
         Task RegisterAsync(Employee user);
+        Task ChangePasswordAsync(ChangePasswordData changePasswordData);
     }
 }

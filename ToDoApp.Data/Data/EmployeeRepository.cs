@@ -48,32 +48,95 @@ namespace ToDoApp.Data.Data
             }
         }
 
-        public async Task<IEnumerable<Employee>> GetAllAsync()
+        public Task<IEnumerable<Employee>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<PublicEmployee>> GetAllPublicAsync()
         {
             using (ApplicationContext db = Db)
             {
-                return await db.Employees.ToListAsync();
+                List<PublicEmployee> employees = await db.Employees
+                    .Include(e => e.Role)
+                    .Include(e => e.Speciality)
+                    .Select(e => new PublicEmployee()
+                    {
+                        Id = e.Id,
+                        Username = e.Username,
+                        Fullname = e.Fullname,
+                        EmploymentDate = e.EmploymentDate,
+                        Age = e.Age,
+                        Role = e.Role,
+                        Speciality = e.Speciality
+                    })
+                    .ToListAsync();
+
+                return employees;
             }
         }
 
-        public async Task<Employee> GetByFullnameAsync(string fullname)
+        public async Task<PublicEmployee> GetByFullnameAsync(string fullname)
         {
             using (ApplicationContext db = Db)
             {
-                Employee? dbEmployee = await db.Employees.FirstOrDefaultAsync(e => e.Fullname == fullname);
+                PublicEmployee? employee = await db.Employees
+                    .Where(e => e.Fullname == fullname)
+                    .Include(e => e.Role)
+                    .Include(e => e.Speciality)
+                    .Select(e => new PublicEmployee()
+                    {
+                        Id = e.Id,
+                        Username = e.Username,
+                        Fullname = e.Fullname,
+                        EmploymentDate = e.EmploymentDate,
+                        Age = e.Age,
+                        Role = e.Role,
+                        Speciality = e.Speciality
+                    })
+                    .FirstOrDefaultAsync();
 
-                if (dbEmployee == null)
+                if (employee == null)
                 {
                     throw new NotFoundException(EmployeeNotFoundMessage);
                 }
 
-                return dbEmployee;
+                return employee;
             }
         }
 
         public Task<Employee> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<PublicEmployee> GetByIdPublicAsync(int id)
+        {
+            using (ApplicationContext db = Db)
+            {
+                PublicEmployee? employee = await db.Employees
+                    .Where(e => e.Id == id)
+                    .Include(e => e.Role)
+                    .Include(e => e.Speciality)
+                    .Select(e => new PublicEmployee()
+                    {
+                        Id = e.Id,
+                        Username = e.Username,
+                        Fullname = e.Fullname,
+                        EmploymentDate = e.EmploymentDate,
+                        Age = e.Age,
+                        Role = e.Role,
+                        Speciality = e.Speciality
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (employee == null)
+                {
+                    throw new NotFoundException(EmployeeNotFoundMessage);
+                }
+
+                return employee;
+            }
         }
 
         public async Task UpdateByIdAsync(Employee employee)
@@ -87,6 +150,7 @@ namespace ToDoApp.Data.Data
                     throw new NotFoundException(EmployeeNotFoundMessage);
                 }
 
+                employeeFromDb.Username = employee.Username;
                 employeeFromDb.Fullname = employee.Fullname;
                 employeeFromDb.EmploymentDate = employee.EmploymentDate;
                 employeeFromDb.Age = employee.Age;

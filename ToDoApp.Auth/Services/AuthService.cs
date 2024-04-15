@@ -22,29 +22,29 @@ namespace ToDoApp.Auth.Services
             _hashService = hashService;
         }
 
-        public async Task<AuthData> LoginAsync(LoginData user)
+        public async Task<AuthData> LoginAsync(LoginData loginData)
         {
-            Employee? userFromDb = await _employeeRepository.GetByUsername(user.Username);
+            Employee? employeeFromDb = await _employeeRepository.GetByUsername(loginData.Username);
 
-            if (userFromDb == null)
+            if (employeeFromDb == null)
             {
                 throw new NotFoundException(UserNotFoundMessage);
             }
 
-            if (!_hashService.VerifyHash(user.Password, userFromDb.Password, userFromDb.Salt))
+            if (!_hashService.VerifyHash(loginData.Password, employeeFromDb.Password, employeeFromDb.Salt))
             {
                 throw new BadRequestException(IncorrectPasswordMessage);
             }
 
-            string token = _tokenService.GetToken(userFromDb);
-            PublicEmployee publicUser = new PublicEmployee(userFromDb.Id, userFromDb.Username, userFromDb.Role);
+            string token = _tokenService.GetToken(employeeFromDb);
+            EmployeeUIData publicUser = new EmployeeUIData(employeeFromDb.Id, employeeFromDb.Username, employeeFromDb.Role);
 
             return new AuthData(token, publicUser);
         }
 
         public async Task RegisterAsync(Employee employee)
         {
-            Employee? employeeFromDb = await _employeeRepository.GetByUsername(employee.Fullname);
+            Employee employeeFromDb = await _employeeRepository.GetByUsername(employee.Username);
 
             if (employeeFromDb != null)
             {
@@ -55,6 +55,26 @@ namespace ToDoApp.Auth.Services
             employee.Salt = salt;
 
             await _employeeRepository.CreateOneAsync(employee);
+        }
+
+        public async Task ChangePasswordAsync(ChangePasswordData changePasswordData)
+        {
+            Employee? employeeFromDb = await _employeeRepository.GetByUsername(changePasswordData.Username);
+
+            if (employeeFromDb == null)
+            {
+                throw new NotFoundException(UserNotFoundMessage);
+            }
+
+            if (!_hashService.VerifyHash(changePasswordData.OldPassword, employeeFromDb.Password, employeeFromDb.Salt))
+            {
+                throw new BadRequestException(IncorrectPasswordMessage);
+            }
+
+            changePasswordData.Password = _hashService.GetHash(changePasswordData.Password, out byte[] salt);
+            changePasswordData.Salt = salt;
+
+            await _employeeRepository.ChangePasswordAsync(changePasswordData);
         }
     }
 }

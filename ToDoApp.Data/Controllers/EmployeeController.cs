@@ -18,16 +18,16 @@ namespace ToDoApp.Data.Controllers
 
         [HttpGet]
         //[Authorize(Roles = "Admin")]
-        public async Task<IEnumerable<Employee>> GetAllAsync()
+        public async Task<IEnumerable<PublicEmployee>> GetAllAsync()
         {
-            return await _employeeService.GetAllAsync(); 
+            return await _employeeService.GetAllPublicAsync(); 
         }
 
-        [HttpGet("{fullname}")]
+        [HttpGet("{id}")]
         //[Authorize(Roles = "Admin")]
-        public async Task<Employee> GetByFullnameAsync(string fullname)
+        public async Task<PublicEmployee> GetByIdAsync(int id)
         {
-            return await _employeeService.GetByFullnameAsync(fullname);
+            return await _employeeService.GetByIdPublicAsync(id);
         }
 
         [HttpPost]

@@ -4,6 +4,8 @@ namespace ToDoApp.Data.Services.Abstract
 {
     public interface IEmployeeService : IDataService<Employee>
     {
-        Task<Employee> GetByFullnameAsync(string fullname);
+        Task<PublicEmployee> GetByFullnameAsync(string fullname);
+        Task<IEnumerable<PublicEmployee>> GetAllPublicAsync();
+        Task<PublicEmployee> GetByIdPublicAsync(int id);
     }
 }
