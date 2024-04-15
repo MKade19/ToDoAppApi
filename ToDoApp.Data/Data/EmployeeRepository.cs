@@ -52,7 +52,7 @@ namespace ToDoApp.Data.Data
         {
             using (ApplicationContext db = Db)
             {
-                return await db.Employees.Select(e => new Employee(e)).ToListAsync();
+                return await db.Employees.ToListAsync();
             }
         }
 
@@ -60,7 +60,7 @@ namespace ToDoApp.Data.Data
         {
             using (ApplicationContext db = Db)
             {
-                Employee? dbEmployee = await db.Employees.Select(e => new Employee(e)).FirstOrDefaultAsync(e => e.Fullname == fullname);
+                Employee? dbEmployee = await db.Employees.FirstOrDefaultAsync(e => e.Fullname == fullname);
 
                 if (dbEmployee == null)
                 {
@@ -95,11 +95,6 @@ namespace ToDoApp.Data.Data
 
                 await db.SaveChangesAsync();
             }
-        }
-
-        Task<Employee> IRepository<Employee>.GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
         }
     }
 }
