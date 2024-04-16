@@ -31,6 +31,7 @@ namespace ToDoApp.Data.Data
                 DateTime currentDate = DateTime.Now;
                 objective.CreatedDate = currentDate;
                 objective.UpdatedDate = currentDate;
+                objective.IsCompleted = false;
 
                 await db.Objectives.AddAsync(objective);
                 await db.SaveChangesAsync();
@@ -75,9 +76,27 @@ namespace ToDoApp.Data.Data
             }
         }
 
-        Task<Objective> IRepository<Objective>.GetByIdAsync(int id)
+        public async Task<Objective> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            using (ApplicationContext db = Db)
+            {
+                Objective? dbObjective = await db.Objectives.FirstOrDefaultAsync(o => o.Id == id);
+
+                if (dbObjective == null)
+                {
+                    throw new NotFoundException(ObjectiveNotFoundMessage);
+                }
+
+                return dbObjective;
+            }
+        }
+        
+        public async Task<IEnumerable<Objective>> GetByEmployeeIdAsync(int employeeId)
+        {
+            using (ApplicationContext db = Db)
+            {
+                return await db.Objectives.Where(o => o.EmployeeId == employeeId).ToListAsync();
+            }
         }
 
         public async Task UpdateByIdAsync(Objective objective)
@@ -93,8 +112,8 @@ namespace ToDoApp.Data.Data
 
                 objectiveFromDb.Title = objective.Title;
                 objectiveFromDb.Desciption = objective.Desciption;
+                objectiveFromDb.IsCompleted = objective.IsCompleted;
                 objectiveFromDb.UpdatedDate = DateTime.Now;
-                objectiveFromDb.EmployeeId = objective.EmployeeId;
 
                 await db.SaveChangesAsync();
             }

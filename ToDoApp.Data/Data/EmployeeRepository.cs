@@ -126,7 +126,7 @@ namespace ToDoApp.Data.Data
                         EmploymentDate = e.EmploymentDate,
                         Age = e.Age,
                         Role = e.Role,
-                        Speciality = e.Speciality
+                        Speciality = e.Speciality,
                     })
                     .FirstOrDefaultAsync();
 
@@ -156,6 +156,12 @@ namespace ToDoApp.Data.Data
                 employeeFromDb.Age = employee.Age;
                 employeeFromDb.RoleId = employee.RoleId;
                 employeeFromDb.SpecialityId = employee.SpecialityId;
+
+                if (!string.IsNullOrEmpty(employee.Password))
+                {
+                    employeeFromDb.Password = employee.Password;
+                    employeeFromDb.Salt = employee.Salt;
+                }
 
                 await db.SaveChangesAsync();
             }

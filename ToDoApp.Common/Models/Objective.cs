@@ -18,7 +18,7 @@ namespace ToDoApp.Common.Models
         public string Desciption { get; set; }
 
         [JsonPropertyName("isCompleted")]
-        public bool IsCompleted { get; set; }
+        public bool? IsCompleted { get; set; }
 
         [JsonPropertyName("createdDate")]
         public DateTime? CreatedDate { get; set; }
@@ -27,24 +27,9 @@ namespace ToDoApp.Common.Models
         public DateTime? UpdatedDate { get; set; }
 
         [JsonPropertyName("employeeId")]
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
 
         [ForeignKey(nameof(EmployeeId))]
-        public Employee Employee { get; set; }
-
-        [JsonConstructor]
-        public Objective(int id, string title, string desciption, DateTime? createdDate, DateTime? updatedDate, int employeeId)
-        {
-            Id = id;
-            Title = title;
-            Desciption = desciption;
-            CreatedDate = createdDate;
-            UpdatedDate = updatedDate;
-            EmployeeId = employeeId;
-        }
-
-        public Objective()
-        {
-        }
+        public Employee? Employee { get; set; }
     }
 }

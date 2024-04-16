@@ -28,9 +28,14 @@ namespace ToDoApp.Data.Services
             return await _objectiveRepository.GetAllAsync();
         }
 
-        public Task<Objective> GetByIdAsync(int id)
+        public async Task<IEnumerable<Objective>> GetByEmployeeIdAsync(int employeeId)
         {
-            throw new NotImplementedException();
+            return await _objectiveRepository.GetByEmployeeIdAsync(employeeId);
+        }
+
+        public async Task<Objective> GetByIdAsync(int id)
+        {
+            return await _objectiveRepository.GetByIdAsync(id);
         }
 
         public async Task<Objective> GetByTitleAsync(string title)

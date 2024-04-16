@@ -55,6 +55,12 @@ namespace ToDoApp.Data.Services
 
         public async Task UpdateByIdAsync(Employee employee)
         {
+            if (!string.IsNullOrEmpty(employee.Password))
+            {
+                employee.Password = _hashService.GetHash(employee.Password, out byte[] salt);
+                employee.Salt = salt;
+            }
+
             await _employeeRepository.UpdateByIdAsync(employee);
         }
     }

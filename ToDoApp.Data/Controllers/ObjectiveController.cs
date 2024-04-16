@@ -22,11 +22,18 @@ namespace ToDoApp.Data.Controllers
             return await _objectiveService.GetAllAsync();
         }
 
-        [HttpGet("{title}")]
+        [HttpGet("employee/{employeeId}")]
         //[Authorize]
-        public async Task<Objective> GetByTitleAsync(string title)
+        public async Task<IEnumerable<Objective>> GetByEmployeeIdAsync(int employeeId)
         {
-            return await _objectiveService.GetByTitleAsync(title);
+            return await _objectiveService.GetByEmployeeIdAsync(employeeId);
+        }
+
+        [HttpGet("{id}")]
+        //[Authorize]
+        public async Task<Objective> GetByIdAsync(int id)
+        {
+            return await _objectiveService.GetByIdAsync(id);
         }
 
         [HttpPost]
