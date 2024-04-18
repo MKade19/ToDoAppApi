@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace ToDoApp.Common.Models
@@ -10,17 +10,18 @@ namespace ToDoApp.Common.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [JsonPropertyName("id")]
         public int Id { get; set; }
-        
-        public string Name { get; set; }
 
-        public Role(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
+        [JsonPropertyName("name")]
+        [Required]
+        public string Name { get; set; } = string.Empty;
 
-        public Role()
-        {
-        }
+        [JsonPropertyName("objectivesPermission")]
+        public string? ObjectivesPermission { get; set; }
+
+        [JsonPropertyName("employeesPermission")]
+        public string? EmployeesPermission { get; set; }
+
+        [JsonPropertyName("specialitiesPermission")]
+        public string? SpecialitiesPermission { get; set; }
     }
 }

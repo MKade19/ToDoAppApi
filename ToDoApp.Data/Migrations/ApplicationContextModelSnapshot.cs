@@ -66,6 +66,9 @@ namespace ToDoApp.Data.Migrations
 
                     b.HasIndex("SpecialityId");
 
+                    b.HasIndex("Username")
+                        .IsUnique();
+
                     b.ToTable("Employees");
                 });
 
@@ -84,15 +87,16 @@ namespace ToDoApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsCompleted")
+                    b.Property<bool?>("IsCompleted")
+                        .IsRequired()
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -100,6 +104,9 @@ namespace ToDoApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Objectives");
                 });
@@ -112,11 +119,23 @@ namespace ToDoApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("EmployeesPermission")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ObjectivesPermission")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SpecialitiesPermission")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Roles");
                 });
@@ -131,9 +150,12 @@ namespace ToDoApp.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Specialities");
                 });
@@ -161,9 +183,7 @@ namespace ToDoApp.Data.Migrations
                 {
                     b.HasOne("ToDoApp.Common.Models.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Employee");
                 });

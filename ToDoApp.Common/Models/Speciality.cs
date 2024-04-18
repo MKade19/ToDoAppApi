@@ -12,6 +12,7 @@ namespace ToDoApp.Common.Models
         public int Id { get; set; }
 
         [JsonPropertyName("title")]
+        [Required]
         public string Title { get; set; }
 
         [JsonConstructor]

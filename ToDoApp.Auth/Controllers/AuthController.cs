@@ -31,7 +31,6 @@ namespace ToDoApp.Auth.Controllers
         }
 
         [HttpPost("change-password")]
-        //[Authorize]
         public async Task<ActionResult> ChangePasswordAsync([FromBody] ChangePasswordData changePasswordData)
         {
             await _authService.ChangePasswordAsync(changePasswordData);

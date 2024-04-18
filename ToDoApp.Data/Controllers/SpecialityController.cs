@@ -17,28 +17,21 @@ namespace ToDoApp.Data.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IEnumerable<Speciality>> GetAllAsync()
         {
             return await _specialityService.GetAllAsync();
         }
 
-        //[HttpGet("{title}")]
-        ////[Authorize]
-        //public async Task<Speciality> GetByTitleAsync(string title)
-        //{
-        //    return await _specialityService.GetByTitleAsync(title);
-        //}
-
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<Speciality> GetByIdAsync(int id)
         {
             return await _specialityService.GetByIdAsync(id);
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CreateOneAsync([FromBody] Speciality speciality)
         {
             await _specialityService.CreateOneAsync(speciality);
@@ -46,14 +39,14 @@ namespace ToDoApp.Data.Controllers
         }
 
         [HttpPut]
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task UpdateByIdAsync([FromBody] Speciality speciality)
         {
             await _specialityService.UpdateByIdAsync(speciality);
         }
 
         [HttpDelete("{id}")]
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task DeleteByIdAsync(int id)
         {
             await _specialityService.DeleteByIdAsync(id);

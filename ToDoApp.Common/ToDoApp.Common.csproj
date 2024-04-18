@@ -10,4 +10,10 @@
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Microsoft.EntityFrameworkCore.Abstractions">
+      <HintPath>..\..\..\..\..\..\Cache\Nuget\microsoft.entityframeworkcore.abstractions\6.0.0\lib\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

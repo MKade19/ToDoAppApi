@@ -12,12 +12,15 @@ namespace ToDoApp.Common.Models
         public int Id { get; set; }
 
         [JsonPropertyName("title")]
+        [Required]
         public string Title { get; set; }
 
         [JsonPropertyName("desciption")]
+        [Required]
         public string Desciption { get; set; }
 
         [JsonPropertyName("isCompleted")]
+        [Required]
         public bool? IsCompleted { get; set; }
 
         [JsonPropertyName("createdDate")]

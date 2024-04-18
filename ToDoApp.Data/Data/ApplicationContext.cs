@@ -8,7 +8,27 @@ namespace ToDoApp.Data.Data
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
+        }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Employee>()
+                .HasIndex(u => u.Username)
+                .IsUnique();
+            
+            modelBuilder.Entity<Speciality>()
+                .HasIndex(u => u.Title)
+                .IsUnique();
+
+            modelBuilder.Entity<Objective>()
+                .HasIndex(u => u.Title)
+                .IsUnique();
+
+            modelBuilder.Entity<Role>()
+                .HasIndex(u => u.Name)
+                .IsUnique();
+
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Employee> Employees { get; set; } = null!;

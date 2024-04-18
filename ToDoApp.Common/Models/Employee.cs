@@ -14,25 +14,31 @@ namespace ToDoApp.Common.Models
 
         [JsonPropertyName("username")]
         [StringLength(50)]
+        [Required]
         public string Username { get; set; } = string.Empty;
 
         [JsonPropertyName("fullname")]
         [StringLength(50)]
+        [Required]
         public string Fullname { get; set; } = string.Empty;
 
         [JsonPropertyName("employmentDate")]
+        [Required]
         public DateTime EmploymentDate { get; set; }
 
         [JsonPropertyName("age")]
+        [Required]
         public int Age { get; set; }
 
         [JsonPropertyName("roleId")]
+        [Required]
         public int RoleId { get; set; } = 1;
 
         [ForeignKey(nameof(RoleId))]
         public Role? Role { get; set; }
 
         [JsonPropertyName("specialityId")]
+        [Required]
         public int SpecialityId { get; set; }
 
         [ForeignKey(nameof(SpecialityId))]
