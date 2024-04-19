@@ -6,5 +6,6 @@ namespace ToDoApp.Data.Services.Abstract
     {
         Task<Objective> GetByTitleAsync(string title);
         Task<IEnumerable<Objective>> GetByEmployeeIdAsync(int employeeId);
+        Task<IEnumerable<Objective>> GetBySearchDataAsync(ObjectiveSearchData searchData);
     }
 }

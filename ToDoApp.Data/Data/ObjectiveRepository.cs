@@ -61,6 +61,20 @@ namespace ToDoApp.Data.Data
             }
         }
 
+        public async Task<IEnumerable<Objective>> GetBySearchDataAsync(ObjectiveSearchData searchData)
+        {
+            using (ApplicationContext db = Db)
+            {
+                return await db.Objectives
+                    .Where(o => (o.EmployeeId == searchData.EmployeeId) 
+                    && (o.Title.Contains(searchData.Title ?? string.Empty) || string.IsNullOrEmpty(searchData.Title))
+                    && (o.CreatedDate >= searchData.MinDate || searchData.MinDate == null)
+                    && (o.CreatedDate <= searchData.MaxDate || searchData.MaxDate == null)
+                    && (o.IsCompleted == searchData.Completion || searchData.Completion == null))
+                    .ToListAsync();
+            }
+        }
+
         public async Task<Objective> GetByTitleAsync(string title)
         {
             using (ApplicationContext db = Db)
@@ -98,6 +112,7 @@ namespace ToDoApp.Data.Data
                 return await db.Objectives.Where(o => o.EmployeeId == employeeId).ToListAsync();
             }
         }
+
 
         public async Task UpdateByIdAsync(Objective objective)
         {

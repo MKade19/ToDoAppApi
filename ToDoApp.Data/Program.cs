@@ -53,8 +53,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             OnTokenValidated = context =>
             {
-                //var tokenBlackList = context.HttpContext.RequestServices.GetRequiredService<ITokenBlackList>();
-                //var tokenParser = context.HttpContext.RequestServices.GetRequiredService<ITokenParser>();
                 var bearer = context.HttpContext.Request.Headers["Authorization"];
 
                 if (String.IsNullOrEmpty(bearer))
@@ -62,11 +60,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     bearer = context.Request.Query["access_token"];
                 }
 
-                //var token = tokenParser.GetBearerTokenFromAuthHeaderString(bearer);
-                //if (tokenBlackList.TokenIsBlackListed(token).Result)
-                //{
-                //    context.Fail("Token has expired");
-                //}
                 return Task.CompletedTask;
             }
         };

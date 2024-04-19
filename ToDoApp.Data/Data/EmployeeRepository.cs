@@ -76,12 +76,12 @@ namespace ToDoApp.Data.Data
             }
         }
 
-        public async Task<PublicEmployee> GetByFullnameAsync(string fullname)
+        public async Task<PublicEmployee> GetByUsernameAsync(string username)
         {
             using (ApplicationContext db = Db)
             {
                 PublicEmployee? employee = await db.Employees
-                    .Where(e => e.Fullname == fullname)
+                    .Where(e => e.Username == username)
                     .Include(e => e.Role)
                     .Include(e => e.Speciality)
                     .Select(e => new PublicEmployee()

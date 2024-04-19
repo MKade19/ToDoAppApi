@@ -38,6 +38,11 @@ namespace ToDoApp.Data.Services
             return await _objectiveRepository.GetByIdAsync(id);
         }
 
+        public async Task<IEnumerable<Objective>> GetBySearchDataAsync(ObjectiveSearchData searchData)
+        {
+            return await _objectiveRepository.GetBySearchDataAsync(searchData);
+        }
+
         public async Task<Objective> GetByTitleAsync(string title)
         {
             return await _objectiveRepository.GetByTitleAsync(title);

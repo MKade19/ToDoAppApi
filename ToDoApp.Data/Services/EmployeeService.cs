@@ -38,11 +38,6 @@ namespace ToDoApp.Data.Services
             return await _employeeRepository.GetAllPublicAsync();
         }
 
-        public async Task<PublicEmployee> GetByFullnameAsync(string username)
-        {
-            return await _employeeRepository.GetByFullnameAsync(username);
-        }
-
         public Task<Employee> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
