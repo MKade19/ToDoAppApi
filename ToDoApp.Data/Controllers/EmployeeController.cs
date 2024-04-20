@@ -30,6 +30,13 @@ namespace ToDoApp.Data.Controllers
             return await _employeeService.GetByIdPublicAsync(id);
         }
 
+        [HttpGet("search")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IEnumerable<PublicEmployee>> GetBySearchDataAsync([FromQuery] EmployeeSearchData searchData)
+        {
+            return await _employeeService.GetBySearchDataAsync(searchData);
+        }
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CreateOneAsync([FromBody] Employee employee) 

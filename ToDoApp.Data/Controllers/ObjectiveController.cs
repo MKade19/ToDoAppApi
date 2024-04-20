@@ -42,15 +42,6 @@ namespace ToDoApp.Data.Controllers
         [Authorize]
         public async Task<IEnumerable<Objective>> GetBySearchDataAsync([FromQuery]ObjectiveSearchData searchData)
         {
-            //ObjectiveSearchData searchData = new ObjectiveSearchData()
-            //{
-            //    Title = title,
-            //    Completion = completion,
-            //    MinDate = minDate,
-            //    MaxDate = maxDate,
-            //    EmployeeId = employeeId
-            //};
-
             return await _objectiveService.GetBySearchDataAsync(searchData);
         }
 

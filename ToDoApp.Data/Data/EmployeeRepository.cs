@@ -105,6 +105,37 @@ namespace ToDoApp.Data.Data
             }
         }
 
+        public async Task<IEnumerable<PublicEmployee>> GetBySearchDataAsync(EmployeeSearchData searchData)
+        {
+            using (ApplicationContext db = Db)
+            {
+                List<PublicEmployee> employees = await db.Employees
+                    .Where(e => (e.Username.Contains(searchData.Username ?? string.Empty) || string.IsNullOrEmpty(searchData.Username)) 
+                        && (e.Username.Contains(searchData.Fullname ?? string.Empty) || string.IsNullOrEmpty(searchData.Fullname))
+                        && (e.EmploymentDate >= searchData.MinDate || searchData.MinDate == null)
+                        && (e.EmploymentDate <= searchData.MaxDate || searchData.MaxDate == null)
+                        && (e.Age >= searchData.MinAge || searchData.MinAge == null)
+                        && (e.Age <= searchData.MaxAge || searchData.MaxAge == null)
+                        && (e.RoleId == searchData.RoleId || searchData.RoleId == null)
+                        && (e.SpecialityId == searchData.SpecialityId || searchData.SpecialityId == null))
+                    .Include(e => e.Role)
+                    .Include(e => e.Speciality)
+                    .Select(e => new PublicEmployee()
+                    {
+                        Id = e.Id,
+                        Username = e.Username,
+                        Fullname = e.Fullname,
+                        EmploymentDate = e.EmploymentDate,
+                        Age = e.Age,
+                        Role = e.Role,
+                        Speciality = e.Speciality
+                    })
+                    .ToListAsync();
+
+                return employees;
+            }
+        }
+
         public Task<Employee> GetByIdAsync(int id)
         {
             throw new NotImplementedException();

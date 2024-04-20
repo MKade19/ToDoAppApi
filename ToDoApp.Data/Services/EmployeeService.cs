@@ -48,6 +48,11 @@ namespace ToDoApp.Data.Services
             return await _employeeRepository.GetByIdPublicAsync(id);
         }
 
+        public async Task<IEnumerable<PublicEmployee>> GetBySearchDataAsync(EmployeeSearchData searchData)
+        {
+            return await _employeeRepository.GetBySearchDataAsync(searchData);
+        }
+
         public async Task UpdateByIdAsync(Employee employee)
         {
             if (!string.IsNullOrEmpty(employee.Password))

@@ -67,10 +67,10 @@ namespace ToDoApp.Data.Data
             {
                 return await db.Objectives
                     .Where(o => (o.EmployeeId == searchData.EmployeeId) 
-                    && (o.Title.Contains(searchData.Title ?? string.Empty) || string.IsNullOrEmpty(searchData.Title))
-                    && (o.CreatedDate >= searchData.MinDate || searchData.MinDate == null)
-                    && (o.CreatedDate <= searchData.MaxDate || searchData.MaxDate == null)
-                    && (o.IsCompleted == searchData.Completion || searchData.Completion == null))
+                        && (o.Title.Contains(searchData.Title ?? string.Empty) || string.IsNullOrEmpty(searchData.Title))
+                        && (o.CreatedDate >= searchData.MinDate || searchData.MinDate == null)
+                        && (o.CreatedDate <= searchData.MaxDate || searchData.MaxDate == null)
+                        && (o.IsCompleted == searchData.Completion || searchData.Completion == null))
                     .ToListAsync();
             }
         }

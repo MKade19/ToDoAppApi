@@ -7,5 +7,6 @@ namespace ToDoApp.Data.Data.Abstract
         Task<PublicEmployee> GetByUsernameAsync(string username);
         Task<IEnumerable<PublicEmployee>> GetAllPublicAsync();
         Task<PublicEmployee> GetByIdPublicAsync(int id);
+        Task<IEnumerable<PublicEmployee>> GetBySearchDataAsync(EmployeeSearchData searchData);
     }
 }
