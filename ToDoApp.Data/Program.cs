@@ -8,6 +8,8 @@ using ToDoApp.Data.Services;
 using ToDoApp.Data.Services.Abstract;
 using ToDoApp.Common.Security;
 using Serilog;
+using Microsoft.Extensions.FileProviders;
+using ToDoApp.Data.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,8 @@ builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<ISpecialityService, SpecialityService>();
 builder.Services.AddTransient<IObjectiveService, ObjectiveService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
+builder.Services.AddTransient<IFileService, FileService>();
+builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddTransient<ISpecialityRepository, SpecialityRepository>();
 builder.Services.AddTransient<IObjectiveRepository, ObjectiveRepository>();
@@ -81,6 +85,34 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.Use(async (context, next) => {
+    await next.Invoke();
+
+    if (context.Response.StatusCode == 404)
+    {
+        string? isImageFormat = FileFormats.ImageFormats.Where(f => context.Request.Path.Value.Contains(f)).FirstOrDefault();
+
+        if (isImageFormat != null)
+        {
+            context.Response.Redirect("/images/default-avatar.jpg");
+        }
+    }
+});
+
+app.UseStaticFiles();
+
+var imageFileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Images"));
+
+var imageFileOptions = new FileServerOptions
+{
+    FileProvider = imageFileProvider,
+    RequestPath = "/images",
+    EnableDirectoryBrowsing = true,
+    
+};
+
+app.UseFileServer(imageFileOptions);
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 

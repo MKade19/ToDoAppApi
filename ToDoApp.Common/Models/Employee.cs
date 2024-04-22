@@ -50,8 +50,11 @@ namespace ToDoApp.Common.Models
 
         public byte[]? Salt { get; set; }
 
+        [JsonPropertyName("image-name")]
+        public string? ImageName { get; set; }
+
         [JsonConstructor]
-        public Employee(int id, string username, string fullname, DateTime employmentDate, int age, int roleId, int specialityId)
+        public Employee(int id, string username, string fullname, DateTime employmentDate, int age, int roleId, int specialityId, string? imageName)
         {
             Id = id;
             Username = username;
@@ -60,6 +63,7 @@ namespace ToDoApp.Common.Models
             Age = age;
             RoleId = roleId;
             SpecialityId = specialityId;
+            ImageName = imageName;
         }
 
         public Employee(Employee employee)
@@ -71,6 +75,7 @@ namespace ToDoApp.Common.Models
             Age = employee.Age;
             RoleId = employee.RoleId;
             SpecialityId = employee.SpecialityId;
+            ImageName = employee.ImageName;
         }
 
         public Employee() { }

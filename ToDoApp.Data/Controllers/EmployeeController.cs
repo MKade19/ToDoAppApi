@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 using ToDoApp.Common.Models;
 using ToDoApp.Data.Services.Abstract;
 
@@ -10,10 +12,12 @@ namespace ToDoApp.Data.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
+        private readonly ITokenService _tokenService;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService, ITokenService tokenService)
         {
             _employeeService = employeeService;
+            _tokenService = tokenService;
         }
 
         [HttpGet]
@@ -24,7 +28,7 @@ namespace ToDoApp.Data.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<PublicEmployee> GetByIdAsync(int id)
         {
             return await _employeeService.GetByIdPublicAsync(id);
@@ -42,6 +46,25 @@ namespace ToDoApp.Data.Controllers
         public async Task<ActionResult> CreateOneAsync([FromBody] Employee employee) 
         {
             await _employeeService.CreateOneAsync(employee);
+            return StatusCode(StatusCodes.Status201Created);
+        }
+
+        [HttpPost("image-upload")]
+        [Authorize]
+        public async Task<ActionResult> UploadImage([FromForm] IFormFile file, [FromHeader] string authorization)
+        {
+            string token = string.Empty;
+
+            if (AuthenticationHeaderValue.TryParse(authorization, out var headerValue))
+            {
+                token = headerValue.Parameter ?? string.Empty;
+            }
+
+            JwtSecurityToken jwt = await _tokenService.DecodeTokenAsync(token);
+            int employeeId = await _tokenService.ExtractIdFromTokenAsync(jwt);
+
+            await _employeeService.UpdateImageAsync(file, employeeId);
+
             return StatusCode(StatusCodes.Status201Created);
         }
 

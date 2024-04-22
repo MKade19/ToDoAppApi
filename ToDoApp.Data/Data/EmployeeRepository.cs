@@ -128,7 +128,8 @@ namespace ToDoApp.Data.Data
                         EmploymentDate = e.EmploymentDate,
                         Age = e.Age,
                         Role = e.Role,
-                        Speciality = e.Speciality
+                        Speciality = e.Speciality,
+                        ImageName = e.ImageName
                     })
                     .ToListAsync();
 
@@ -158,6 +159,7 @@ namespace ToDoApp.Data.Data
                         Age = e.Age,
                         Role = e.Role,
                         Speciality = e.Speciality,
+                        ImageName = e.ImageName
                     })
                     .FirstOrDefaultAsync();
 
@@ -193,6 +195,23 @@ namespace ToDoApp.Data.Data
                     employeeFromDb.Password = employee.Password;
                     employeeFromDb.Salt = employee.Salt;
                 }
+
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateImageNameAsync(int id, string imageName)
+        {
+            using (ApplicationContext db = Db)
+            {
+                Employee? employeeFromDb = await db.Employees.FirstOrDefaultAsync(e => e.Id == id);
+
+                if (employeeFromDb == null)
+                {
+                    throw new NotFoundException(EmployeeNotFoundMessage);
+                }
+
+                employeeFromDb.ImageName = imageName;
 
                 await db.SaveChangesAsync();
             }

@@ -30,5 +30,8 @@ namespace ToDoApp.Common.Models
 
         [JsonPropertyName("speciality")]
         public Speciality? Speciality { get; set; }
+
+        [JsonPropertyName("image-name")]
+        public string? ImageName { get; set; }
     }
 }

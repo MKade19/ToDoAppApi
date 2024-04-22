@@ -37,7 +37,7 @@ namespace ToDoApp.Auth.Services
             }
 
             string token = _tokenService.GetToken(employeeFromDb);
-            EmployeeUIData publicUser = new EmployeeUIData(employeeFromDb.Id, employeeFromDb.Username, employeeFromDb.Role);
+            EmployeeUIData publicUser = new EmployeeUIData(employeeFromDb.Id, employeeFromDb.Username, employeeFromDb.Role, employeeFromDb.ImageName);
 
             return new AuthData(token, publicUser);
         }

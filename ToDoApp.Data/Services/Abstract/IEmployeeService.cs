@@ -7,6 +7,6 @@ namespace ToDoApp.Data.Services.Abstract
         Task<IEnumerable<PublicEmployee>> GetAllPublicAsync();
         Task<PublicEmployee> GetByIdPublicAsync(int id);
         Task<IEnumerable<PublicEmployee>> GetBySearchDataAsync(EmployeeSearchData searchData);
-
+        Task UpdateImageAsync(IFormFile formFile, int employeeId);
     }
 }

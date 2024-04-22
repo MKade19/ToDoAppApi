@@ -14,16 +14,21 @@ namespace ToDoApp.Common.Models
         [StringLength(50)]
         public string Username { get; set; }
 
+        [JsonPropertyName("imagename")]
+        [Required]
+        public string? ImageName { get; set; }
+
         [JsonPropertyName("role")]
         [Required]
         public Role Role{ get; set; }
 
         [JsonConstructor]
-        public EmployeeUIData(int id, string username, Role role)
+        public EmployeeUIData(int id, string username, Role role, string? imageName)
         {
             Id = id;
             Username = username;
             Role = role;
+            ImageName = imageName;
         }
     }
 }

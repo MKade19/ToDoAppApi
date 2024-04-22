@@ -8,11 +8,13 @@ namespace ToDoApp.Data.Services
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IHashService _hashService;
+        private readonly IFileService _fileService;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IHashService hashService)
+        public EmployeeService(IEmployeeRepository employeeRepository, IHashService hashService, IFileService fileService)
         {
             _employeeRepository = employeeRepository;
             _hashService = hashService;
+            _fileService = fileService;
         }
 
         public async Task CreateOneAsync(Employee employee)
@@ -62,6 +64,15 @@ namespace ToDoApp.Data.Services
             }
 
             await _employeeRepository.UpdateByIdAsync(employee);
+        }
+
+        public async Task UpdateImageAsync(IFormFile formFile, int employeeId)
+        {
+            string imageName = (await _employeeRepository.GetByIdPublicAsync(employeeId)).ImageName ?? string.Empty;
+            string newImageName = await _fileService.UploadImageFileAsync(formFile);
+
+            await _fileService.DeleteImageFileAsync(imageName);
+            await _employeeRepository.UpdateImageNameAsync(employeeId, newImageName);
         }
     }
 }
